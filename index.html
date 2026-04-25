@@ -234,7 +234,9 @@
                         </div>
                         <div class="mt-4 md:mt-0 flex items-center gap-6">
                             <!-- span class="text-2xl font-bold text-primary"> desde $5.000</span> -->
-                            <button class="text-primary font-bold hover:underline">Ver detalle <br>de precios</button>
+                            <button class="ver-precios text-primary font-bold hover:underline" data-tipo="rebajes">
+                                Ver detalle <br>de precios
+                            </button>
                         </div>
                     </div>
                     <div
@@ -251,7 +253,9 @@
                         </div>
                         <div class="mt-4 md:mt-0 flex items-center gap-6">
                             <!-- <span class="text-2xl font-bold text-primary"> desde $1.500</span> -->
-                            <button class="text-primary font-bold hover:underline">Ver detalle <br>de precios</button>
+                            <button class="ver-precios text-primary font-bold hover:underline" data-tipo="rostro">
+                                Ver detalle <br>de precios
+                            </button>
                         </div>
                     </div>
                     <div
@@ -268,7 +272,9 @@
                         </div>
                         <div class="mt-4 md:mt-0 flex items-center gap-6">
                             <!-- <span class="text-2xl font-bold text-primary"> desde $2.000</span> -->
-                            <button class="text-primary font-bold hover:underline">Ver detalle <br>de precios</button>
+                            <button class="ver-precios text-primary font-bold hover:underline" data-tipo="cuerpo">
+                                Ver detalle <br>de precios
+                            </button>
                         </div>
                     </div>
                     <!-- <div
@@ -346,6 +352,7 @@
                         </div>
                     </div>
                     <button
+                        onclick="window.location.href='https://wa.me/56965288295?text=Hola,%20quiero%20consultar%20por%20la%20disponibilidad%20del%20producto';"
                         class="border-2 border-primary text-primary hover:bg-primary hover:text-on-primary px-8 py-3 rounded-full font-bold transition-all">
                         Consultar disponibilidad por WhatsApp
                     </button>
@@ -395,6 +402,135 @@
         <span class="material-symbols-outlined text-3xl"
             style="font-variation-settings: 'FILL' 1;">calendar_month</span>
     </button>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Modal Precios -->
+<div id="modalPrecios" class="fixed inset-0 bg-black/50 hidden z-50">
+
+    <div class="flex items-center justify-center min-h-full p-4">
+
+        <!-- Caja -->
+        <div class="bg-white w-full md:max-w-lg rounded-2xl shadow-xl max-h-[90vh] flex flex-col">
+
+            <!-- HEADER -->
+            <div class="p-6 pb-4 border-b relative">
+                <button id="cerrarModal" class="absolute top-4 right-4 text-gray-500 text-2xl">
+                    ✕
+                </button>
+        
+                <h2 class="text-xl md:text-2xl font-bold text-center">
+                    Detalle de Precios
+                </h2>
+            </div>
+        
+            <!-- BODY (SCROLL) -->
+            <div id="contenidoModal" class="flex-1 overflow-y-auto p-6 space-y-3 text-gray-700 text-sm md:text-base">
+                <!-- dinámico -->
+            </div>
+        
+            <!-- FOOTER -->
+            <div class="p-4 border-t bg-white">
+                <button class="w-full bg-primary text-white py-3 rounded-full font-semibold">
+                    Reservar ahora
+                </button>
+            </div>
+        
+        </div>
+
+    </div>
+</div>
+
+<!-- Script -->
+<script>
+$(document).ready(function(){
+
+    const precios = {
+        rebajes: [
+            "Rebaje simple - $5.000",
+            "Rebaje largo - $8.000",
+            "Interglúteos - $5.000",
+            "Rebaje zona delantera - $13.000",
+            "Rebaje full más interglúteos - $16.000"
+        ],
+        rostro: [
+            "Frente - $4.000",
+            "Mentón - $2.500",
+            "Cuello - $3.500",
+            "Pómulos - $1.500",
+            "Patillas - $3.500",
+            "Bozo - $2.000",
+            "Nariz - $1.500",
+            "Perfilado de cejas - $3.500",
+            "Zona posterior Oreja - $2.000",
+            "Perfilado de nuca - $4.000"
+        ],
+        cuerpo: [
+            "Axilas - $3.000",
+            "Manos - $2.500",
+            "Medio brazo - $5.000",
+            "Brazo completo - $7.500",
+            "Linea alba - $4.500",
+            "Abdomen completo - $10.000",
+            "Zona lumbar - $4.500",
+            "Media espalda - $7.500",
+            "Espalda completa - $13.000",
+            "Caderas - $4.000",
+            "Glúteos - $4.500",
+            "Media Pierna - $9.000",
+            "Pierna completa - $13.000",
+            "Pies más empeine - $2.000"
+        ]
+    };
+
+    $(".ver-precios").click(function(){
+        let tipo = $(this).data("tipo");
+        let lista = precios[tipo];
+
+        let html = "";
+
+        lista.forEach(function(item){
+            let partes = item.split(" - ");
+            html += `
+                <div class="flex items-center justify-between border-b pb-2 gap-4">
+                    <span class="flex-1">${partes[0]}</span>
+                    <span class="font-semibold whitespace-nowrap">${partes[1]}</span>
+                </div>
+            `;
+        });
+
+        $("#contenidoModal").html(html);
+
+        $("#modalPrecios").fadeIn(200).removeClass("hidden").addClass("flex");
+        $("body").addClass("overflow-hidden");
+    });
+
+    $("#cerrarModal").click(cerrarModal);
+
+    $("#modalPrecios").click(function(e){
+        if(e.target.id === "modalPrecios"){
+            cerrarModal();
+        }
+    });
+
+    function cerrarModal(){
+        $("#modalPrecios").fadeOut(200, function(){
+            $(this).addClass("hidden").removeClass("flex");
+        });
+        $("body").removeClass("overflow-hidden");
+    }
+
+});
+</script>
+
+
+
+
+
+
+
 </body>
 
 </html>
+
