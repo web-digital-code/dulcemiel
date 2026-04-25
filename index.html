@@ -121,10 +121,10 @@
                 <a class="text-stone-600 hover:text-amber-700 transition-colors duration-300 font-['Noto_Serif'] text-base tracking-tight"
                     href="#ubicacion">Ubicación</a>
             </div>
-            <button
+            <!-- <button
                 class="honey-gradient text-on-primary px-6 py-2.5 rounded-full font-semibold scale-95 transition-transform duration-200 hover:scale-100 shadow-md">
                 Reservar Cita
-            </button>
+            </button> -->
         </div>
     </nav>
     <!-- Hero Section -->
@@ -148,10 +148,12 @@
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <button
+                        onclick="window.location.href='https://wa.me/56973576400?text=Hola%20buen%20d%C3%ADa,%20quisiera%20reservar%20una%20hora.';"
                         class="honey-gradient text-on-primary px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:opacity-90 transition-opacity">
                         Reservar mi sesión
                     </button>
                     <button
+                        onclick="document.getElementById('menu-dulzura').scrollIntoView({ behavior: 'smooth' });"
                         class="bg-surface-container-high text-on-surface px-8 py-4 rounded-full font-bold text-lg hover:bg-surface-container-highest transition-colors">
                         Ver servicios
                     </button>
@@ -213,7 +215,7 @@
     <!-- Pricing Section -->
     <section class="py-24 bg-surface" id="precios">
         <div class="max-w-5xl mx-auto px-8">
-            <div class="mb-16 text-center">
+            <div id="menu-dulzura" class="mb-16 text-center">
                 <h2 class="text-4xl font-headline font-bold mb-4">Menú de Dulzura</h2>
                 <p class="text-on-surface-variant font-light">Transparencia en cada servicio, resultados impecables.</p>
             </div>
@@ -352,7 +354,7 @@
                         </div>
                     </div>
                     <button
-                        onclick="window.location.href='https://wa.me/56973576400?text=Hola,%20quiero%20consultar%20por%20la%20disponibilidad%20del%20producto';"
+                        onclick="window.location.href='https://wa.me/56973576400?text=Hola,%20quiero%20consultar%20por%20la%20disponibilidad%20de%20los%20servicios%20que%20realiza';"
                         class="border-2 border-primary text-primary hover:bg-primary hover:text-on-primary px-8 py-3 rounded-full font-bold transition-all">
                         Consultar disponibilidad por WhatsApp
                     </button>
@@ -387,8 +389,12 @@
                 <!-- <a class="text-stone-500 hover:text-amber-600 underline-offset-4 hover:underline text-sm transition-opacity opacity-80 hover:opacity-100" href="#">Privacidad</a> -->
                 <!-- <a class="text-stone-500 hover:text-amber-600 underline-offset-4 hover:underline text-sm transition-opacity opacity-80 hover:opacity-100" href="#">Términos de Servicio</a> -->
                 <!-- <a class="text-stone-500 hover:text-amber-600 underline-offset-4 hover:underline text-sm transition-opacity opacity-80 hover:opacity-100" href="#">Contacto</a> -->
-                <a class="text-stone-500 hover:text-amber-600 underline-offset-4 hover:underline text-sm transition-opacity opacity-80 hover:opacity-100" target="_blank"
-                    href="#">Whatsapp</a>
+                <a 
+                    class="text-stone-500 hover:text-amber-600 underline-offset-4 hover:underline text-sm transition-opacity opacity-80 hover:opacity-100"
+                    target="_blank"
+                    href="https://wa.me/56973576400">
+                    Whatsapp
+                </a>
                 <a class="text-stone-500 hover:text-amber-600 underline-offset-4 hover:underline text-sm transition-opacity opacity-80 hover:opacity-100" target="_blank"
                     href="https://www.instagram.com/dulcemielparatupiel">Instagram</a>
                 <a class="text-stone-500 hover:text-amber-600 underline-offset-4 hover:underline text-sm transition-opacity opacity-80 hover:opacity-100" target="_blank"
@@ -397,11 +403,11 @@
         </div>
     </footer>
     <!-- FAB for quick booking -->
-    <button
+    <!-- <button
         class="fixed bottom-8 right-8 honey-gradient w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-on-primary hover:scale-110 transition-transform z-40 md:hidden">
         <span class="material-symbols-outlined text-3xl"
             style="font-variation-settings: 'FILL' 1;">calendar_month</span>
-    </button>
+    </button> -->
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -432,7 +438,9 @@
         
             <!-- FOOTER -->
             <div class="p-4 border-t bg-white">
-                <button class="w-full bg-primary text-white py-3 rounded-full font-semibold">
+                <button 
+                    id="btnReservar"
+                    class="w-full bg-primary text-white py-3 rounded-full font-semibold">
                     Reservar ahora
                 </button>
             </div>
@@ -484,6 +492,12 @@ $(document).ready(function(){
         ]
     };
 
+    const nombresServicios = {
+        rebajes: "rebajes",
+        rostro: "depilación facial",
+        cuerpo: "depilación corporal"
+    };
+
     $(".ver-precios").click(function(){
         let tipo = $(this).data("tipo");
         let lista = precios[tipo];
@@ -502,10 +516,18 @@ $(document).ready(function(){
 
         $("#contenidoModal").html(html);
 
+        // Cambiar mensaje dinámico de WhatsApp
+        let mensaje = `Hola buen día, quiero reservar un servicio de ${nombresServicios[tipo]}`;
+        let url = `https://wa.me/56973576400?text=${encodeURIComponent(mensaje)}`;
+
+        $("#btnReservar").off("click").on("click", function(){
+            window.location.href = url;
+        });
+
         $("#modalPrecios").fadeIn(200).removeClass("hidden").addClass("flex");
         $("body").addClass("overflow-hidden");
     });
-
+    
     $("#cerrarModal").click(cerrarModal);
 
     $("#modalPrecios").click(function(e){
